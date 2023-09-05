@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CourseWork.Client\CourseWork.Client.csproj" />
+    <ProjectReference Include="..\CourseWork.ElGamal\CourseWork.ElGamal.csproj" />
+    <ProjectReference Include="..\CourseWork.Modes\CourseWork.Modes.csproj" />
+    <ProjectReference Include="..\CourseWork.RC6\CourseWork.RC6.csproj" />
+  </ItemGroup>
+
+</Project>

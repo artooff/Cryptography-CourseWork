@@ -1,0 +1,93 @@
+syntax = "proto3";
+
+option csharp_namespace = "CourseWork.Server";
+
+package Hosting;
+
+service Hosting {
+  rpc GetFilesInfoFromServer (GetFilesInfoRequest) returns (GetFilesInfoResponse);
+  rpc SendFileToServer (SendFileBlockRequest) returns (SendFileBlockResponse);
+  rpc GetFileFromServer (GetFileRequest) returns (GetFileResponse);
+  rpc GetPublicKeyFromServer (GetPublicKeyRequest) returns (GetPublicKeyResponse);
+  rpc SendClientKeyToServer (SendClientKeyRequest) returns (SendClientKeyResponse);
+}
+
+//передача ключей:
+//public key: request - запрос на получение публичного ключа с сервера, response - отправка публичного ключа
+//client key: request - отправка клиентского ключа, request - сообщение о результате регистрации клиента на сервере
+
+message GetPublicKeyRequest{
+	string clientInfo = 1; //
+}
+
+message GetPublicKeyResponse{
+	bool isSuccess = 1;
+	PublicKey key = 2;
+}
+
+message SendClientKeyRequest{
+	string clientInfo = 1;
+	ClientKey key = 2;
+}
+
+message SendClientKeyResponse{
+	bool isSuccess = 1;
+}
+
+message PublicKey{
+	string P = 1;
+	string G = 2;
+	string Y = 3;
+}
+
+message ClientKey{
+	EncryptedKey data = 1;
+}
+
+message EncryptedKey{
+	string partA = 1;
+	string partB = 2;
+}
+
+//получение информации о доступных файлах
+message GetFilesInfoRequest{
+	string clientInfo = 1;
+}
+
+message GetFilesInfoResponse{
+	repeated string fileNames = 1;
+	bool isSuccess = 2;
+}
+
+//передача файлов:
+//request - запрос файла, response - отправка файла(или сообщение о том что такого файла нет)
+//request - отправка файла на сервер, response - сообщение о результате отправки
+
+message SendFileBlockRequest{
+	EncryptedFileBlock file = 1;
+	bytes IV = 2;
+	int32 blockNumber = 3;
+	int32 blocksCount = 4;
+}
+
+message SendFileBlockResponse{
+	string fileName = 1;
+	bool isSuccess = 2;
+	bool fullFileSended = 3;
+}
+
+message GetFileRequest{
+	string fileName = 1;
+}
+
+message GetFileResponse{
+	bool isExist = 1;
+	EncryptedFileBlock file = 2;
+}
+
+message EncryptedFileBlock {
+  string name = 1;
+  bytes data = 2;
+  
+}
+
